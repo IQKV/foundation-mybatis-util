@@ -28,9 +28,10 @@ All handlers live in `com.iqkv.foundation.mybatis.util`.
 <dependency>
   <groupId>com.iqkv</groupId>
   <artifactId>foundation-mybatis-util</artifactId>
-  <version>0.24.0-SNAPSHOT</version>
 </dependency>
 ```
+
+The version is managed by `com.iqkv:boot-parent-pom`, so consumers inheriting from it do not need to declare one.
 
 ### Registering the handlers
 
