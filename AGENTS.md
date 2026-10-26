@@ -190,8 +190,8 @@ Format: `type(scope): subject`
 - Types: `feat`, `fix`, `improvement`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`, `build`, `revert`
 - Scope: affected handler or area (e.g., `uuid-handler`, `json-handler`, `string-array-handler`, `checkstyle`, `deps`)
 - For `fix`: describe the symptom and trigger, not the code change
-  - ✅ `fix(uuid-handler): null uuid column throws NPE on read`
-  - ❌ `fix(uuid-handler): add null check in getNullableResult`
+    - ✅ `fix(uuid-handler): null uuid column throws NPE on read`
+    - ❌ `fix(uuid-handler): add null check in getNullableResult`
 
 Examples:
 
@@ -234,13 +234,13 @@ A task is evaluated as done only when all of the following hold:
 
 ### Required gates by change type
 
-| Change type                        | Required gates                                                                  |
-| ---------------------------------- | ------------------------------------------------------------------------------- |
-| Any change                         | `./mvnw -q compile`, then the narrowest targeted `./mvnw test -Dtest=ClassName` |
-| New or changed type handler        | Unit tests for every handler member, then full `./mvnw verify`                  |
-| Null / branch handling logic       | Unit tests covering both branches, then full `./mvnw verify`                    |
-| Dependency or build config         | Full `./mvnw verify`                                                            |
-| Formatting or docs (`AGENTS.md`) only | `pnpm formatter:check`; no Java code gate — state that none applies          |
+| Change type                           | Required gates                                                                  |
+| ------------------------------------- | ------------------------------------------------------------------------------- |
+| Any change                            | `./mvnw -q compile`, then the narrowest targeted `./mvnw test -Dtest=ClassName` |
+| New or changed type handler           | Unit tests for every handler member, then full `./mvnw verify`                  |
+| Null / branch handling logic          | Unit tests covering both branches, then full `./mvnw verify`                    |
+| Dependency or build config            | Full `./mvnw verify`                                                            |
+| Formatting or docs (`AGENTS.md`) only | `pnpm formatter:check`; no Java code gate — state that none applies             |
 
 ### Ordering
 

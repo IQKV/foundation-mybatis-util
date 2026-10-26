@@ -10,11 +10,11 @@ Shared MyBatis type handlers for the iQKV platform services: UUID columns, Postg
 
 ## Type Handlers
 
-| Handler                  | Java type       | PostgreSQL type        |
-| ------------------------ | --------------- | ---------------------- |
-| `UuidTypeHandler`        | `UUID`          | `uuid` / `varchar`     |
-| `JsonTypeHandler`        | `String`        | `jsonb`                |
-| `StringArrayTypeHandler` | `List<String>`  | `text[]`               |
+| Handler                  | Java type      | PostgreSQL type    |
+| ------------------------ | -------------- | ------------------ |
+| `UuidTypeHandler`        | `UUID`         | `uuid` / `varchar` |
+| `JsonTypeHandler`        | `String`       | `jsonb`            |
+| `StringArrayTypeHandler` | `List<String>` | `text[]`           |
 
 All handlers live in `com.iqkv.foundation.mybatis.util`.
 
