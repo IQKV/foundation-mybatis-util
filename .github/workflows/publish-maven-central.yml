@@ -96,8 +96,8 @@ jobs:
         run: |
           set -euo pipefail
           VERSION="${{ steps.extract_version.outputs.VERSION }}"
-          GROUP_PATH="com/iqkv/foundation-misc-util"
-          ARTIFACT="foundation-misc-util"
+          GROUP_PATH="com/iqkv/foundation-mybatis-util"
+          ARTIFACT="foundation-mybatis-util"
           STAGING="target/manual-staging/${GROUP_PATH}/${VERSION}"
 
           mkdir -p "${STAGING}"

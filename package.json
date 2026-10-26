@@ -1,8 +1,8 @@
 {
-    "name": "@iqkv/foundation-misc-util",
+    "name": "@iqkv/foundation-mybatis-util",
     "version": "0.24.0",
     "private": true,
-    "description": "Provide an optional Git commit hooks.",
+    "description": "Shared MyBatis type handlers for the iQKV platform.",
     "license": "Apache-2.0",
     "type": "module",
     "scripts": {
