@@ -73,7 +73,9 @@ public class PgVectorTypeHandler extends BaseTypeHandler<float[]> {
 
   // ── Helpers ───────────────────────────────────────────────────────────────
 
-  /** Converts {@code float[]} to the pgvector wire format {@code [v1,v2,...,vn]}. */
+  /**
+   * Converts {@code float[]} to the pgvector wire format {@code [v1,v2,...,vn]}.
+   */
   static String toVectorLiteral(final float[] values) {
     final StringBuilder sb = new StringBuilder("[");
     for (int i = 0; i < values.length; i++) {
