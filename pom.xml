@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.iqkv</groupId>
     <artifactId>foundation-mybatis-util</artifactId>
-    <version>0.24.2-SNAPSHOT</version>
+    <version>0.24.3-SNAPSHOT</version>
     <name>Foundation MyBatis Util</name>
     <description>Shared MyBatis type handlers for the iQKV platform.</description>
     <url>https://github.com/IQKV/foundation-mybatis-util</url>
