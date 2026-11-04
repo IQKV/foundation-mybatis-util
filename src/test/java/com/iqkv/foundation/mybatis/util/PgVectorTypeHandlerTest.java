@@ -27,11 +27,12 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.postgresql.util.PGobject;
 
 class PgVectorTypeHandlerTest {
 
@@ -51,16 +52,21 @@ class PgVectorTypeHandlerTest {
   // ── setNonNullParameter ───────────────────────────────────────────────────
 
   @Test
-  @DisplayName("setNonNullParameter binds the pgvector literal via Types.OTHER")
-  void shouldBindVectorLiteralAsOther() throws SQLException {
+  @DisplayName("setNonNullParameter wraps the vector literal into a PGobject of type vector")
+  void shouldBindVectorLiteralAsVectorObject() throws SQLException {
     // Arrange
     final float[] vector = {1.0f, 2.5f, -0.5f};
+    final var captor = ArgumentCaptor.forClass(Object.class);
 
     // Act
     handler.setNonNullParameter(preparedStatement, 1, vector, null);
 
-    // Assert — literal must be "[1.0,2.5,-0.5]" bound as Types.OTHER
-    verify(preparedStatement).setObject(eq(1), eq("[1.0,2.5,-0.5]"), eq(Types.OTHER));
+    // Assert — literal must be "[1.0,2.5,-0.5]" bound as a PGobject of type vector
+    verify(preparedStatement).setObject(eq(1), captor.capture());
+    assertThat(captor.getValue()).isInstanceOf(PGobject.class);
+    final var vectorObject = (PGobject) captor.getValue();
+    assertThat(vectorObject.getType()).isEqualTo("vector");
+    assertThat(vectorObject.getValue()).isEqualTo("[1.0,2.5,-0.5]");
   }
 
   @Test
@@ -68,12 +74,16 @@ class PgVectorTypeHandlerTest {
   void shouldBindSingleElement() throws SQLException {
     // Arrange
     final float[] vector = {0.123f};
+    final var captor = ArgumentCaptor.forClass(Object.class);
 
     // Act
     handler.setNonNullParameter(preparedStatement, 2, vector, null);
 
     // Assert
-    verify(preparedStatement).setObject(eq(2), eq("[0.123]"), eq(Types.OTHER));
+    verify(preparedStatement).setObject(eq(2), captor.capture());
+    final var vectorObject = (PGobject) captor.getValue();
+    assertThat(vectorObject.getType()).isEqualTo("vector");
+    assertThat(vectorObject.getValue()).isEqualTo("[0.123]");
   }
 
   // ── getNullableResult — by column name ────────────────────────────────────

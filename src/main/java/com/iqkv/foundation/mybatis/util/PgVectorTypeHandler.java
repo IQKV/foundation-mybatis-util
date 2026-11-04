@@ -20,21 +20,22 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;
+import org.postgresql.util.PGobject;
 
 /**
  * MyBatis type handler for {@code float[]} &harr; PostgreSQL {@code vector} column type
  * provided by the pgvector extension.
  *
  * <p>Serialises a Java {@code float[]} as the pgvector wire literal {@code [v1,v2,...,vn]}
- * and deserialises the same format back. The value is bound through {@link Types#OTHER} so
- * the PostgreSQL JDBC driver passes it directly to the extension without an additional cast
- * — the same approach used by {@link JsonTypeHandler} in this library.
+ * and deserialises the same format back. The value is bound as a {@link PGobject} of type
+ * {@code vector} — the same approach used by {@link JsonTypeHandler} in this library. Binding
+ * the literal as a bare {@code String} would make the driver announce it as {@code varchar},
+ * which PostgreSQL refuses to assign to a {@code vector} column.
  *
  * <p>A {@code null} array maps to SQL {@code NULL}, which is the correct sentinel for
  * rows that have not been embedded yet.
@@ -50,7 +51,10 @@ public class PgVectorTypeHandler extends BaseTypeHandler<float[]> {
   public void setNonNullParameter(final PreparedStatement ps, final int i,
                                   final float[] parameter,
                                   final JdbcType jdbcType) throws SQLException {
-    ps.setObject(i, toVectorLiteral(parameter), Types.OTHER);
+    final PGobject vectorObject = new PGobject();
+    vectorObject.setType("vector");
+    vectorObject.setValue(toVectorLiteral(parameter));
+    ps.setObject(i, vectorObject);
   }
 
   @Override
